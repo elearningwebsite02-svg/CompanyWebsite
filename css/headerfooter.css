@@ -255,39 +255,57 @@ header.hide{ transform:translateY(-100%); }
 }
 .footer-credentials{
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-    flex-wrap:wrap;
-    gap:24px;
-    padding:30px 0 20px;
-    border-top:1px solid #ddd;
+    gap:22px;
+    padding:38px 0 22px;
+    margin-top:48px;
+    border-top:1px solid #ececec;
     text-align:center;
 }
 .credentials-title{
-    font-size:13px;
-    font-weight:600;
-    color:#888;
-    letter-spacing:1.5px;
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    font-size:12px;
+    font-weight:500;
+    color:#8a8a8a;
+    letter-spacing:2.4px;
     text-transform:uppercase;
     margin:0;
+    line-height:1;
+}
+.credentials-title::before,
+.credentials-title::after{
+    content:"";
+    display:block;
+    width:34px;
+    height:1px;
+    background:#d8d2c5;
 }
 .credentials-logos{
     display:flex;
     align-items:center;
-    gap:28px;
-    flex-wrap:wrap;
     justify-content:center;
+    gap:36px;
+    flex-wrap:wrap;
 }
 .credential-logo{
-    height:50px;
+    display:block;
+    height:56px;
     width:auto;
-    filter:grayscale(20%);
-    opacity:.85;
-    transition:filter .3s ease, opacity .3s ease;
+    max-width:200px;
+    object-fit:contain;
+    filter:grayscale(15%);
+    opacity:.9;
+    transition:filter .3s ease, opacity .3s ease, transform .3s ease;
 }
 .credential-logo:hover{
     filter:grayscale(0%);
     opacity:1;
+    transform:translateY(-2px);
 }
 .footer-bottom{
     margin-top:70px;
@@ -375,7 +393,24 @@ header.hide{ transform:translateY(-100%); }
     }
     .footer-box p{ max-width:100%; }
     .social-links{ justify-content:flex-start; }
-    .footer-credentials{ padding:20px 0 10px; gap:16px; }
-    .credentials-logos{ gap:18px; }
-    .credential-logo{ height:40px; }
+    .footer-credentials{
+        padding:28px 16px 14px;
+        margin-top:36px;
+        gap:18px;
+    }
+    .credentials-title{
+        font-size:11px;
+        letter-spacing:2px;
+    }
+    .credentials-title::before,
+    .credentials-title::after{
+        width:22px;
+    }
+    .credentials-logos{
+        gap:22px;
+    }
+    .credential-logo{
+        height:42px;
+        max-width:150px;
+    }
 }
