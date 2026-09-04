@@ -171,7 +171,7 @@ include 'includes/navbar.php';
     </div>
     <?php foreach (array_slice($courses, 0, 6) as $index => $course): ?>
 
-    <a href="training-category.php?id=<?= $course['title_id'] ?>" class="training-item">
+    <a href="course_category.php?id=<?= $course['title_id'] ?>" class="training-item">
 
         <span class="training-number">
             <?= str_pad($index + 1, 2, "0", STR_PAD_LEFT) ?>

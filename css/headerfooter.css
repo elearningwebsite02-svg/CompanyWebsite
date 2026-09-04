@@ -5,18 +5,12 @@
    LAYOUT STRATEGY
    ------------------------------------------------------------
    - .navbar          : max-width 1400px, centered. Owns
-                        Company Logo + Navigation.
-   - .navbar-credentials : position:fixed overlay anchored to
-                        the browser viewport. NOT inside .navbar.
-                        Two-state visibility:
-                          * viewport >= 1920px  -> shown
-                          * viewport <  1920px  -> hidden
-                        The 1920px threshold is the math-derived
-                        floor at which the cert block
-                        (24 + 46 + 10 + 46 = ~126px wide) finishes BEFORE
-                        the centered .navbar's left padding (40px)
-                        and .logo content begins. Below 1920px
-                        the only way to avoid overlap is to yield.
+                         Company Logo + Navigation.
+   - .navbar-credentials : absolutely anchored inside <header>
+                         the topbar bar, far-left edge, vertically
+                         centered. Always visible on desktop so
+                         they are pinned to the topbar on every
+                         reasonable viewport. Mobile hides them.
                         Per project priority:
                           1. Company Logo
                           2. Navigation
@@ -44,7 +38,7 @@ header.hide{ transform:translateY(-100%); }
     width:100%;
     max-width:1400px;
     margin:0 auto;
-    padding:0 40px;
+    padding:0 40px 0 170px;
     height:85px;
     display:flex;
     justify-content:space-between;
@@ -155,11 +149,11 @@ header.hide{ transform:translateY(-100%); }
 
 /* ============================================================
    NAVBAR CREDENTIALS
-   Viewport-anchored topbar overlay. Independent of .navbar.
-   NO margin / padding on .logo. NO offset on .nav-actions.
+   Pinned to the topbar (inside <header>), far-left edge,
+   vertically centered. Always visible on desktop.
    ============================================================ */
 .navbar-credentials{
-    position:fixed;
+    position:absolute;
     left:24px;
     top:50%;
     transform:translateY(-50%);
@@ -168,7 +162,7 @@ header.hide{ transform:translateY(-100%); }
     gap:10px;
     margin:0;
     padding:0;
-    z-index:10000;
+    z-index:2;
 }
 .navbar-cred-logo{
     height:46px;
@@ -179,12 +173,6 @@ header.hide{ transform:translateY(-100%); }
 .navbar-cred-logo:hover{
     opacity:1;
     transform:translateY(-2px);
-}
-
-/* When the viewport cannot guarantee non-overlap with the
-   centered .navbar, cert logos yield. No overlap. Ever. */
-@media (max-width:1919px){
-    .navbar-credentials{ display:none; }
 }
 
 /* ============================================================
