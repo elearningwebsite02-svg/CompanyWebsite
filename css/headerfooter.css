@@ -9,13 +9,13 @@
    - .navbar-credentials : position:fixed overlay anchored to
                         the browser viewport. NOT inside .navbar.
                         Two-state visibility:
-                          * viewport >= 1800px  -> shown
-                          * viewport <  1800px  -> hidden
-                        The 1800px threshold is the math-derived
+                          * viewport >= 1920px  -> shown
+                          * viewport <  1920px  -> hidden
+                        The 1920px threshold is the math-derived
                         floor at which the cert block
-                        (30 + ~200 = 230px wide) finishes BEFORE
+                        (24 + 46 + 10 + 46 = ~126px wide) finishes BEFORE
                         the centered .navbar's left padding (40px)
-                        and .logo content begins. Below 1800px
+                        and .logo content begins. Below 1920px
                         the only way to avoid overlap is to yield.
                         Per project priority:
                           1. Company Logo
@@ -160,32 +160,30 @@ header.hide{ transform:translateY(-100%); }
    ============================================================ */
 .navbar-credentials{
     position:fixed;
-    left:30px;
-    top:42.5px;
+    left:24px;
+    top:50%;
     transform:translateY(-50%);
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:10px;
     margin:0;
     padding:0;
     z-index:10000;
 }
 .navbar-cred-logo{
-    height:52px;
+    height:46px;
     width:auto;
-    opacity:.8;
-    filter:grayscale(5%);
-    transition:opacity .3s ease, filter .3s ease, transform .3s ease;
+    opacity:.85;
+    transition:opacity .3s ease, transform .3s ease;
 }
 .navbar-cred-logo:hover{
     opacity:1;
-    filter:grayscale(0%);
     transform:translateY(-2px);
 }
 
 /* When the viewport cannot guarantee non-overlap with the
    centered .navbar, cert logos yield. No overlap. Ever. */
-@media (max-width:1799px){
+@media (max-width:1919px){
     .navbar-credentials{ display:none; }
 }
 
