@@ -123,6 +123,52 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </section>
 
+<script>
+(function() {
+    function equalizeCourseTitles() {
+        var titles = document.querySelectorAll('.category-course-name');
+        if (!titles.length) return;
+
+        // Reset to natural height before measuring
+        for (var i = 0; i < titles.length; i++) {
+            titles[i].style.height = 'auto';
+        }
+
+        // Find tallest rendered title
+        var maxHeight = 0;
+        for (var i = 0; i < titles.length; i++) {
+            var height = titles[i].getBoundingClientRect().height;
+            if (height > maxHeight) {
+                maxHeight = height;
+            }
+        }
+
+        // Apply common height to all titles
+        for (var i = 0; i < titles.length; i++) {
+            titles[i].style.height = maxHeight + 'px';
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', equalizeCourseTitles);
+    } else {
+        equalizeCourseTitles();
+    }
+
+    var resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(equalizeCourseTitles, 100);
+    });
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(equalizeCourseTitles);
+    }
+
+    window.addEventListener('load', equalizeCourseTitles);
+})();
+</script>
+
 <?php
 
 include 'includes/footer.php';
