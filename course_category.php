@@ -169,6 +169,30 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 })();
 </script>
 
+<a href="#" class="back-to-top" aria-label="Back to Top">↑</a>
+
+<script>
+(function() {
+    var btn = document.querySelector('.back-to-top');
+    if (!btn) return;
+
+    function toggleBackToTop() {
+        if (window.scrollY > 300) {
+            btn.classList.add('is-visible');
+        } else {
+            btn.classList.remove('is-visible');
+        }
+    }
+
+    toggleBackToTop();
+    window.addEventListener('scroll', toggleBackToTop);
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+</script>
+
 <?php
 
 include 'includes/footer.php';
