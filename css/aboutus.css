@@ -369,6 +369,24 @@
 
 }
 
+.clients-page{
+
+    display:contents;
+
+}
+
+.clients-slider{
+
+    position:relative;
+
+}
+
+.clients-arrow{
+
+    display:none;
+
+}
+
 .client-item{
 
     display:flex;
@@ -793,10 +811,73 @@
 
     }
 
+    /* Mobile: 4 pages × 9 logos, 1 column, horizontal swipe with scroll snap */
+    .clients{
+        padding:72px 0 90px;
+    }
     .clients-grid{
-
-        grid-template-columns:1fr;
-
+        display:flex;
+        flex-direction:row;
+        grid-template-columns:none;
+        max-width:100%;
+        gap:0;
+        overflow-x:auto;
+        overflow-y:hidden;
+        scroll-snap-type:x mandatory;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+        padding:0;
+        margin:0;
+    }
+    .clients-grid::-webkit-scrollbar{ display:none; }
+    .clients-page{
+        display:flex;
+        flex-direction:column;
+        flex:0 0 100vw;
+        scroll-snap-align:start;
+        gap:14px;
+        padding:0 20px;
+        box-sizing:border-box;
+    }
+    .client-item{
+        min-height:auto;
+        padding:10px 16px;
+    }
+    .client-item img{
+        max-height:120px;
+        width:auto;
+        height:auto;
+        max-width:70vw;
+        object-fit:contain;
+    }
+    .clients-arrow{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        border:1px solid #d9d9d9;
+        background:#fff;
+        color:#333;
+        font-size:28px;
+        line-height:1;
+        cursor:pointer;
+        z-index:5;
+        box-shadow:0 2px 8px rgba(0,0,0,0.12);
+        padding:0;
+        -webkit-tap-highlight-color:transparent;
+    }
+    .clients-arrow:active{ transform:translateY(-50%) scale(0.94); }
+    .clients-arrow-prev{ left:6px; }
+    .clients-arrow-next{ right:6px; }
+    .clients-arrow[disabled]{
+        opacity:0.35;
+        cursor:default;
+        pointer-events:none;
     }
 
     .gallery{

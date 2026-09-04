@@ -159,7 +159,11 @@ include 'includes/navbar.php';
         We are proud to work with a diverse range of clients and organizations across industries.
     </p>
 
-    <div class="clients-grid">
+    <div class="clients-slider">
+
+        <button type="button" class="clients-arrow clients-arrow-prev" aria-label="Previous clients">‹</button>
+
+        <div class="clients-grid">
 
         <?php
         $clientLogos = [];
@@ -167,10 +171,25 @@ include 'includes/navbar.php';
             $clientLogos[] = 'logo' . $i . '.png';
         }
 
-        foreach ($clientLogos as $logo) {
-            echo '<div class="client-item"><img src="images/logo/' . $logo . '" alt="Client logo"></div>';
-        }
+        $pages = array_chunk($clientLogos, 9);
+        foreach ($pages as $pageIndex => $pageLogos):
         ?>
+
+        <div class="clients-page">
+
+            <?php foreach ($pageLogos as $logo): ?>
+
+            <div class="client-item"><img src="images/logo/<?= $logo ?>" alt="Client logo"></div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+        <?php endforeach; ?>
+
+    </div>
+
+        <button type="button" class="clients-arrow clients-arrow-next" aria-label="Next clients">›</button>
 
     </div>
 
@@ -315,6 +334,32 @@ include 'includes/footer.php';
                 }, 180);
             });
         });
+
+        const clientsGrid = document.querySelector('.clients-grid');
+        const prevBtn = document.querySelector('.clients-arrow-prev');
+        const nextBtn = document.querySelector('.clients-arrow-next');
+
+        if (clientsGrid && prevBtn && nextBtn) {
+            const pageStep = function () {
+                return clientsGrid.clientWidth;
+            };
+
+            const updateArrows = function () {
+                const max = clientsGrid.scrollWidth - clientsGrid.clientWidth;
+                prevBtn.disabled = clientsGrid.scrollLeft <= 1;
+                nextBtn.disabled = clientsGrid.scrollLeft >= max - 1;
+            };
+
+            prevBtn.addEventListener('click', function () {
+                clientsGrid.scrollBy({ left: -pageStep(), behavior: 'smooth' });
+            });
+            nextBtn.addEventListener('click', function () {
+                clientsGrid.scrollBy({ left: pageStep(), behavior: 'smooth' });
+            });
+            clientsGrid.addEventListener('scroll', updateArrows);
+            window.addEventListener('resize', updateArrows);
+            updateArrows();
+        }
     });
 </script>
 
