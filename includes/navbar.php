@@ -37,4 +37,8 @@ if ($current_page === '' || $current_page === 'index') {
             <a class="elearning-link" href="https://elearning.austive.com" target="_blank" rel="noopener noreferrer">E-Learning &rarr;</a>
         </div>
     </nav>
+    <div class="navbar-credentials">
+        <img src="images/HRD_Corp-Claimable_Logo.png" alt="HRD Corp Claimable" class="navbar-cred-logo">
+        <img src="images/Logo_Training_Provider_Logo_Registered_Training_Provider.png" alt="Registered Training Provider" class="navbar-cred-logo">
+    </div>
 </header>
