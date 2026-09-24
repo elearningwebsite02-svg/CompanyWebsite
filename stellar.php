@@ -30,7 +30,7 @@ include 'includes/header.php';
 
     <div class="trainer-photo">
 
-        <img src="images/stellar1.png" alt="Stellar">
+        <img src="images/trainer_new/Stellar Lee Yoke Siew - ISO Trainer.png" alt="Stellar">
 
     </div>
 

@@ -64,7 +64,7 @@ include 'includes/navbar.php';
 
         <a href="stellar.php" class="team-card member1">
 
-            <img src="images/stellar.png">
+            <img src="images/trainer_new/Stellar Lee Yoke Siew - ISO Trainer.png" alt="Stellar Lee Yoke Siew">
 
             <h3>Stellar Lee Yoke Siew</h3>
 
@@ -82,7 +82,7 @@ include 'includes/navbar.php';
         </a>
 
         <a href="annie.php" class="team-card member3">
-            <img src="images/annie.png" alt="Annie Wong Loo Kim">
+            <img src="images/trainer_new/Accounting & Financial  Trainer-Annie Wong Loo Kim.png" alt="Annie Wong Loo Kim">
             <h3>Annie Wong Loo Kim</h3>
             <span>Accounting & Financial Trainer</span>
         </a>
@@ -109,6 +109,66 @@ include 'includes/navbar.php';
             <img src="images/yunus1.png" alt="Mohd Yunus Omar">
             <h3>Mohd Yunus Omar</h3>
             <span>Trainer</span>
+        </a>
+
+        <a href="aeris.php" class="team-card member1">
+            <img src="images/trainer_new/Aeris Chow-AI & Finance Trainer.png" alt="Aeris Chow">
+            <h3>Aeris Chow</h3>
+            <span>AI &amp; Finance Trainer</span>
+        </a>
+
+        <a href="camen.php" class="team-card member2">
+            <img src="images/trainer_new/Camen Song.png" alt="Camen Song">
+            <h3>Camen Song</h3>
+            <span>Trainer</span>
+        </a>
+
+        <a href="wendy.php" class="team-card member3">
+            <img src="images/trainer_new/Human Resources Trainer-Dr Wendy Tee Leap Sing.png" alt="Dr Wendy Tee Leap Sing">
+            <h3>Dr Wendy Tee Leap Sing</h3>
+            <span>Human Resources Trainer</span>
+        </a>
+
+        <a href="jeffrey.php" class="team-card member4">
+            <img src="images/trainer_new/Jeffrey Nah_First Aid & CPR Trainer.png" alt="Jeffrey Nah">
+            <h3>Jeffrey Nah</h3>
+            <span>First Aid &amp; CPR Trainer</span>
+        </a>
+
+        <a href="lau.php" class="team-card member5">
+            <img src="images/trainer_new/Lau Gih Yeong-IT Trainer.png" alt="Lau Gih Yeong">
+            <h3>Lau Gih Yeong</h3>
+            <span>IT Trainer</span>
+        </a>
+
+        <a href="kuan.php" class="team-card member6">
+            <img src="images/trainer_new/Management & Leadership Trainer-Kuan Ming Ming.png" alt="Kuan Ming Ming">
+            <h3>Kuan Ming Ming</h3>
+            <span>Management &amp; Leadership Trainer</span>
+        </a>
+
+        <a href="rifaie.php" class="team-card member7">
+            <img src="images/trainer_new/Rifaie Bin Sabar-folklit Trainer.png" alt="Rifaie Bin Sabar">
+            <h3>Rifaie Bin Sabar</h3>
+            <span>Folklit Trainer</span>
+        </a>
+
+        <a href="devisen.php" class="team-card member1">
+            <img src="images/trainer_new/Safety Trainer-Devisen AL Rajanathan.png" alt="Devisen AL Rajanathan">
+            <h3>Devisen AL Rajanathan</h3>
+            <span>Safety Trainer</span>
+        </a>
+
+        <a href="noor.php" class="team-card member2">
+            <img src="images/trainer_new/Safety Trainer-Noor Azman Bin Sabudin.png" alt="Noor Azman Bin Sabudin">
+            <h3>Noor Azman Bin Sabudin</h3>
+            <span>Safety Trainer</span>
+        </a>
+
+        <a href="zulhaimi.php" class="team-card member3">
+            <img src="images/trainer_new/Ts. Zulhaimi Bin Mohammad-Safety Trainer.png" alt="Ts. Zulhaimi Bin Mohammad">
+            <h3>Ts. Zulhaimi Bin Mohammad</h3>
+            <span>Safety Trainer</span>
         </a>
 
     </div>

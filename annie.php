@@ -30,7 +30,7 @@ include 'includes/header.php';
 
     <div class="trainer-photo">
 
-        <img src="images/annie1.png" alt="Annie Wong Loo Kim">
+        <img src="images/trainer_new/Accounting & Financial  Trainer-Annie Wong Loo Kim.png" alt="Annie Wong Loo Kim">
 
     </div>
 
