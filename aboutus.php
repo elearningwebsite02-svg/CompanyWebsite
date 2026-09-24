@@ -114,7 +114,7 @@ include 'includes/navbar.php';
         <a href="aeris.php" class="team-card member1">
             <img src="images/trainer_new/Aeris Chow-AI & Finance Trainer.png" alt="Aeris Chow">
             <h3>Aeris Chow</h3>
-            <span>AI &amp; Finance Trainer</span>
+            <span>AI & Finance Trainer</span>
         </a>
 
         <a href="camen.php" class="team-card member2">
@@ -132,7 +132,7 @@ include 'includes/navbar.php';
         <a href="jeffrey.php" class="team-card member4">
             <img src="images/trainer_new/Jeffrey Nah_First Aid & CPR Trainer.png" alt="Jeffrey Nah">
             <h3>Jeffrey Nah</h3>
-            <span>First Aid &amp; CPR Trainer</span>
+            <span>First Aid & CPR Trainer</span>
         </a>
 
         <a href="lau.php" class="team-card member5">
@@ -144,7 +144,7 @@ include 'includes/navbar.php';
         <a href="kuan.php" class="team-card member6">
             <img src="images/trainer_new/Management & Leadership Trainer-Kuan Ming Ming.png" alt="Kuan Ming Ming">
             <h3>Kuan Ming Ming</h3>
-            <span>Management &amp; Leadership Trainer</span>
+            <span>Management & Leadership Trainer</span>
         </a>
 
         <a href="rifaie.php" class="team-card member7">
@@ -181,7 +181,7 @@ include 'includes/navbar.php';
 
     <p class="section-subtitle">OUR CREDENTIALS</p>
 
-    <h2>Recognised &amp; Accredited Training Provider</h2>
+    <h2>Recognised & Accredited Training Provider</h2>
 
     <p class="credentials-description">
         Austive Human Capital Sdn Bhd is an HRD Corp Claimable training provider
