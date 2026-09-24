@@ -990,7 +990,7 @@
 
     display:grid;
 
-    grid-template-columns:48% 52%;
+    grid-template-columns:minmax(0, calc(48% - 50px)) minmax(0, calc(52% - 50px));
 
     gap:100px;
 
@@ -1020,7 +1020,7 @@
 
     display: block;
 
-    transform: scale(1.12);
+    transform: none;
     transition: transform .15s ease-out;
 
     will-change: transform;
