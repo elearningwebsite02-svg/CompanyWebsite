@@ -59,7 +59,7 @@
                 <li>
                     <i class="fa-solid fa-phone"></i>
                     <a href="tel:+60129021932">
-                    +6012-902 1932
+                    +6012-630 9119
                     </a>
                 </li>
 
