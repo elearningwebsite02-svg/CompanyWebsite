@@ -648,7 +648,8 @@
 
 }
 
-.gallery-item img{
+.gallery-item img,
+.gallery-item video{
 
     width:100%;
 

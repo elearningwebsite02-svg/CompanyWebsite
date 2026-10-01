@@ -279,13 +279,15 @@ $galleryBasePath = __DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATO
 $galleryBaseUrl  = 'images/training_photo';
 
 $galleryFolders = array(
+    'video'     => array('dir' => 'video',           'label' => 'Video'),
     'learning'  => array('dir' => 'learning',        'label' => 'Learning & Training'),
     'hands-on'  => array('dir' => 'hand_on_session', 'label' => 'Hands-On Sessions'),
     'team'      => array('dir' => 'team_community',  'label' => 'Team & Community'),
-    'video'     => array('dir' => 'video',           'label' => 'Video'),
 );
 
 $galleryExtensions = array('jpg', 'jpeg', 'png', 'webp', 'gif');
+
+$galleryVideoExtensions = array('mp4');
 
 $galleryItems = array();
 
@@ -341,6 +343,49 @@ foreach ($galleryFolders as $galleryKey => $galleryFolder) {
 
 }
 
+$galleryVideoDir = $galleryBasePath . DIRECTORY_SEPARATOR . 'video';
+
+if (is_dir($galleryVideoDir)) {
+
+    $galleryVideoEntries = @scandir($galleryVideoDir);
+
+    if ($galleryVideoEntries !== false) {
+
+        foreach ($galleryVideoEntries as $galleryVideoEntry) {
+
+            if ($galleryVideoEntry === '.' || $galleryVideoEntry === '..') {
+                continue;
+            }
+
+            $galleryVideoExt = strtolower(pathinfo($galleryVideoEntry, PATHINFO_EXTENSION));
+
+            if (!in_array($galleryVideoExt, $galleryVideoExtensions, true)) {
+                continue;
+            }
+
+            $galleryVideoFile = $galleryVideoDir . DIRECTORY_SEPARATOR . $galleryVideoEntry;
+
+            if (!is_file($galleryVideoFile)) {
+                continue;
+            }
+
+            $galleryItems['video']['files'][] = array(
+                'name'  => pathinfo($galleryVideoEntry, PATHINFO_FILENAME),
+                'url'   => $galleryBaseUrl . '/' . 'video' . '/' . rawurlencode($galleryVideoEntry),
+            );
+
+        }
+
+        if (count($galleryItems['video']['files']) > 1) {
+            usort($galleryItems['video']['files'], function ($a, $b) {
+                return strnatcasecmp($a['name'], $b['name']);
+            });
+        }
+
+    }
+
+}
+
 $galleryTotal = 0;
 
 foreach ($galleryItems as $galleryGroup) {
@@ -379,7 +424,13 @@ $galleryCursor = 0;
         <?php foreach ($galleryItems as $galleryKey => $galleryGroup) { ?>
             <?php foreach ($galleryGroup['files'] as $galleryFile) { ?>
         <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>">
+<?php if ($galleryKey === 'video') { ?>
+            <video controls muted playsinline preload="metadata">
+                <source src="<?php echo htmlspecialchars($galleryFile['url'], ENT_QUOTES, 'UTF-8'); ?>" type="video/mp4">
+            </video>
+<?php } else { ?>
             <img src="<?php echo htmlspecialchars($galleryFile['url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($galleryGroup['label'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
+<?php } ?>
             <div class="gallery-caption"><?php echo htmlspecialchars($galleryGroup['label'], ENT_QUOTES, 'UTF-8'); ?></div>
         </article>
             <?php $galleryCursor++; ?>
