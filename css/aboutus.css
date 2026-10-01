@@ -747,6 +747,111 @@
 
 }
 
+/* ================= GALLERY: UNIFIED TILE SIZE ================= */
+
+/* Every tile renders at exactly the same size (4:3), whatever the original
+   photo orientation and whichever size class the markup assigns. Placed after
+   the individual size classes above so it overrides them (equal specificity). */
+
+.gallery-item.featured-large,
+.gallery-item.feature-medium,
+.gallery-item.feature-small,
+.gallery-item.feature-tall{
+
+    grid-column:span 4;
+
+    grid-row:span 1;
+
+    min-height:0;
+
+    aspect-ratio:4 / 3;
+
+}
+
+/* ================= GALLERY: VIEW ALL / SHOW LESS ================= */
+
+.gallery-item.is-overflow{
+
+    display:none;
+
+}
+
+.gallery-more{
+
+    grid-column:1 / -1;
+
+    justify-self:center;
+
+    align-self:center;
+
+    margin:8px 0 12px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:11px 24px;
+
+    background:transparent;
+
+    border:1px solid #A58A5A;
+
+    border-radius:999px;
+
+    color:#A58A5A;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:1.5px;
+
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    transition:background .25s ease, color .25s ease;
+
+}
+
+.gallery-more:hover{
+
+    background:#A58A5A;
+
+    color:#fff;
+
+}
+
+.gallery-more:focus-visible{
+
+    outline:2px solid #A58A5A;
+
+    outline-offset:3px;
+
+}
+
+.gallery-more-icon{
+
+    transition:transform .25s ease;
+
+}
+
+.gallery-more.is-open .gallery-more-icon{
+
+    transform:rotate(-90deg);
+
+}
+
+.gallery-more.is-hidden{
+
+    display:none;
+
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width:992px){
@@ -787,7 +892,9 @@
 
         grid-row:auto;
 
-        min-height:260px;
+        min-height:0;
+
+        aspect-ratio:4 / 3;
 
     }
 
@@ -931,7 +1038,9 @@
 
         grid-row:auto;
 
-        min-height:280px;
+        min-height:0;
+
+        aspect-ratio:4 / 3;
 
     }
 

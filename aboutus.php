@@ -426,37 +426,6 @@ $galleryPreviewLimit = 12;
         <button class="gallery-filter" data-filter="video" aria-pressed="false">VIDEO</button>
     </div>
 
-    <style>
-        /* Gallery: collapse overflow items until View All is pressed */
-        .gallery-item.is-overflow { display: none; }
-        .gallery-more.is-hidden { display: none; }
-        .gallery-more {
-            grid-column: 1 / -1;
-            justify-self: center;
-            align-self: center;
-            margin: 8px 0 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 24px;
-            background: transparent;
-            border: 1px solid #A58A5A;
-            border-radius: 999px;
-            color: #A58A5A;
-            font-family: inherit;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background .25s ease, color .25s ease;
-        }
-        .gallery-more:hover { background: #A58A5A; color: #fff; }
-        .gallery-more:focus-visible { outline: 2px solid #A58A5A; outline-offset: 3px; }
-        .gallery-more-icon { transition: transform .25s ease; }
-        .gallery-more.is-open .gallery-more-icon { transform: rotate(-90deg); }
-    </style>
-
     <div class="gallery-grid" id="galleryGrid">
 
 <?php if ($galleryTotal > 0) { ?>
