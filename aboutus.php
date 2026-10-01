@@ -454,6 +454,13 @@ $galleryPreviewLimit = 12;
             <?php } ?>
         <?php } ?>
 
+        <?php if ($galleryTotal > $galleryPreviewLimit) { ?>
+        <button class="gallery-more is-hidden" type="button" data-category="all" aria-expanded="false">
+            <span class="gallery-more-label">View All</span>
+            <span class="gallery-more-icon" aria-hidden="true">&rarr;</span>
+        </button>
+        <?php } ?>
+
 <?php } else { ?>
 
         <p class="gallery-description">New photos and videos will appear here soon.</p>
@@ -497,6 +504,12 @@ include 'includes/footer.php';
                         item.classList.toggle('is-hidden', !shouldShow);
                     });
 
+                    if (filter !== 'all') {
+                        resetAllExpanded();
+                    }
+
+                    updateGalleryMoreVisibility(filter);
+
                     grid.classList.remove('is-changing');
                 }, 180);
             });
@@ -506,10 +519,56 @@ include 'includes/footer.php';
         const moreButtons = document.querySelectorAll('.gallery-more');
         const expandedState = {};
 
+        function resetAllExpanded() {
+            moreButtons.forEach(function (button) {
+                const category = button.getAttribute('data-category');
+                if (expandedState[category]) {
+                    grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
+                        item.classList.add('is-overflow');
+                    });
+                    button.classList.remove('is-open');
+                    button.setAttribute('aria-expanded', 'false');
+                    const label = button.querySelector('.gallery-more-label');
+                    const icon = button.querySelector('.gallery-more-icon');
+                    if (label) label.textContent = 'View All';
+                    if (icon) icon.textContent = '→';
+                    delete expandedState[category];
+                }
+            });
+        }
+
         moreButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 const category = this.getAttribute('data-category');
                 const isOpen = !expandedState[category];
+
+                if (category === 'all') {
+                    resetAllExpanded();
+                    if (!isOpen) {
+                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
+                            item.classList.remove('is-overflow');
+                        });
+                        expandedState['all'] = true;
+                        this.classList.add('is-open');
+                        this.setAttribute('aria-expanded', 'true');
+                        const label = this.querySelector('.gallery-more-label');
+                        const icon = this.querySelector('.gallery-more-icon');
+                        if (label) label.textContent = 'Show Less';
+                        if (icon) icon.textContent = '↑';
+                    } else {
+                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
+                            item.classList.add('is-overflow');
+                        });
+                        delete expandedState['all'];
+                        this.classList.remove('is-open');
+                        this.setAttribute('aria-expanded', 'false');
+                        const label = this.querySelector('.gallery-more-label');
+                        const icon = this.querySelector('.gallery-more-icon');
+                        if (label) label.textContent = 'View All';
+                        if (icon) icon.textContent = '→';
+                    }
+                    return;
+                }
 
                 expandedState[category] = isOpen;
 
@@ -528,9 +587,26 @@ include 'includes/footer.php';
             });
         });
 
+        function updateGalleryMoreVisibility(filter) {
+            const allButton = document.querySelector('.gallery-more[data-category="all"]');
+            const categoryButtons = document.querySelectorAll('.gallery-more:not([data-category="all"])');
+
+            if (filter === 'all') {
+                if (allButton) allButton.classList.remove('is-hidden');
+                categoryButtons.forEach(function (btn) { btn.classList.add('is-hidden'); });
+            } else {
+                if (allButton) allButton.classList.add('is-hidden');
+                categoryButtons.forEach(function (btn) {
+                    btn.classList.toggle('is-hidden', btn.getAttribute('data-category') !== filter);
+                });
+            }
+        }
+
         const clientsGrid = document.querySelector('.clients-grid');
         const prevBtn = document.querySelector('.clients-arrow-prev');
         const nextBtn = document.querySelector('.clients-arrow-next');
+
+        updateGalleryMoreVisibility('all');
 
         if (clientsGrid && prevBtn && nextBtn) {
             const pageStep = function () {
