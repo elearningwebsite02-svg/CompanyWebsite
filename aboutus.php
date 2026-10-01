@@ -434,7 +434,8 @@ $galleryPreviewLimit = 12;
             <?php $galleryRowIndex = 0; ?>
             <?php foreach ($galleryGroup['files'] as $galleryFile) { ?>
                 <?php $galleryIsOverflow = ($galleryRowIndex >= $galleryPreviewLimit); ?>
-        <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?><?php echo $galleryIsOverflow ? ' is-overflow' : ''; ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $galleryIsOverflow ? ' data-overflow="1"' : ''; ?>>
+                <?php $galleryIsGlobalOverflow = ($galleryCursor >= $galleryPreviewLimit); ?>
+        <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?><?php echo $galleryIsOverflow ? ' is-overflow' : ''; ?><?php echo $galleryIsGlobalOverflow ? ' is-global-overflow' : ''; ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $galleryIsOverflow ? ' data-overflow="1"' : ''; ?> <?php echo $galleryIsGlobalOverflow ? 'data-global-overflow="1"' : ''; ?>>
 <?php if ($galleryKey === 'video') { ?>
             <video controls muted playsinline preload="metadata">
                 <source src="<?php echo htmlspecialchars($galleryFile['url'], ENT_QUOTES, 'UTF-8'); ?>" type="video/mp4">
@@ -498,11 +499,33 @@ include 'includes/footer.php';
                 grid.classList.add('is-changing');
 
                 setTimeout(function () {
-                    items.forEach(function (item) {
-                        const category = item.getAttribute('data-category');
-                        const shouldShow = filter === 'all' || category === filter;
-                        item.classList.toggle('is-hidden', !shouldShow);
-                    });
+                    if (filter === 'all') {
+                        grid.querySelectorAll('.gallery-item').forEach(function (item) {
+                            const isGlobalOverflow = item.classList.contains('is-global-overflow');
+                            const isCategoryOverflow = item.classList.contains('is-overflow');
+                            if (expandedState['all']) {
+                                item.classList.remove('is-global-overflow');
+                                item.classList.remove('is-overflow');
+                            } else {
+                                if (isGlobalOverflow) item.classList.add('is-global-overflow');
+                                if (isCategoryOverflow) item.classList.add('is-overflow');
+                            }
+                        });
+                    } else {
+                        items.forEach(function (item) {
+                            const category = item.getAttribute('data-category');
+                            const shouldShow = category === filter;
+                            item.classList.toggle('is-hidden', !shouldShow);
+                        });
+
+                        grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + filter + '"]').forEach(function (item) {
+                            item.classList.add('is-overflow');
+                        });
+
+                        grid.querySelectorAll('.gallery-item[data-global-overflow="1"]').forEach(function (item) {
+                            item.classList.remove('is-global-overflow');
+                        });
+                    }
 
                     if (filter !== 'all') {
                         resetAllExpanded();
@@ -524,8 +547,8 @@ include 'includes/footer.php';
                 const category = button.getAttribute('data-category');
                 if (expandedState[category]) {
                     if (category === 'all') {
-                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
-                            item.classList.add('is-overflow');
+                        grid.querySelectorAll('.gallery-item[data-global-overflow="1"]').forEach(function (item) {
+                            item.classList.add('is-global-overflow');
                         });
                     } else {
                         grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
@@ -550,8 +573,8 @@ include 'includes/footer.php';
 
                 if (category === 'all') {
                     if (!isExpanded) {
-                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
-                            item.classList.remove('is-overflow');
+                        grid.querySelectorAll('.gallery-item[data-global-overflow="1"]').forEach(function (item) {
+                            item.classList.remove('is-global-overflow');
                         });
                         expandedState['all'] = true;
                         this.classList.add('is-open');
@@ -561,8 +584,8 @@ include 'includes/footer.php';
                         if (label) label.textContent = 'Show Less';
                         if (icon) icon.textContent = '↑';
                     } else {
-                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
-                            item.classList.add('is-overflow');
+                        grid.querySelectorAll('.gallery-item[data-global-overflow="1"]').forEach(function (item) {
+                            item.classList.add('is-global-overflow');
                         });
                         delete expandedState['all'];
                         this.classList.remove('is-open');

@@ -770,7 +770,9 @@
 
 /* ================= GALLERY: VIEW ALL / SHOW LESS ================= */
 
-.gallery-item.is-overflow{
+.gallery-item.is-overflow,
+
+.gallery-item.is-global-overflow{
 
     display:none;
 
