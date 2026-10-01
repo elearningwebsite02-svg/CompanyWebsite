@@ -523,9 +523,15 @@ include 'includes/footer.php';
             moreButtons.forEach(function (button) {
                 const category = button.getAttribute('data-category');
                 if (expandedState[category]) {
-                    grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
-                        item.classList.add('is-overflow');
-                    });
+                    if (category === 'all') {
+                        grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
+                            item.classList.add('is-overflow');
+                        });
+                    } else {
+                        grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
+                            item.classList.add('is-overflow');
+                        });
+                    }
                     button.classList.remove('is-open');
                     button.setAttribute('aria-expanded', 'false');
                     const label = button.querySelector('.gallery-more-label');
@@ -540,11 +546,10 @@ include 'includes/footer.php';
         moreButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 const category = this.getAttribute('data-category');
-                const isOpen = !expandedState[category];
+                const isExpanded = expandedState[category];
 
                 if (category === 'all') {
-                    resetAllExpanded();
-                    if (!isOpen) {
+                    if (!isExpanded) {
                         grid.querySelectorAll('.gallery-item[data-overflow="1"]').forEach(function (item) {
                             item.classList.remove('is-overflow');
                         });
@@ -570,20 +575,20 @@ include 'includes/footer.php';
                     return;
                 }
 
-                expandedState[category] = isOpen;
+                expandedState[category] = !isExpanded;
 
                 grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
-                    item.classList.toggle('is-overflow', !isOpen);
+                    item.classList.toggle('is-overflow', !expandedState[category]);
                 });
 
-                this.classList.toggle('is-open', isOpen);
-                this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                this.classList.toggle('is-open', expandedState[category]);
+                this.setAttribute('aria-expanded', expandedState[category] ? 'true' : 'false');
 
                 const label = this.querySelector('.gallery-more-label');
                 const icon = this.querySelector('.gallery-more-icon');
 
-                if (label) label.textContent = isOpen ? 'Show Less' : 'View All';
-                if (icon) icon.textContent = isOpen ? '↑' : '→';
+                if (label) label.textContent = expandedState[category] ? 'Show Less' : 'View All';
+                if (icon) icon.textContent = expandedState[category] ? '↑' : '→';
             });
         });
 
