@@ -271,6 +271,87 @@ include 'includes/navbar.php';
 
 </section>
 
+<?php
+
+/* ================= GALLERY (auto scanned from images folders) ================= */
+
+$galleryBasePath = __DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'training_photo';
+$galleryBaseUrl  = 'images/training_photo';
+
+$galleryFolders = array(
+    'learning'  => array('dir' => 'learning',        'label' => 'Learning & Training'),
+    'hands-on'  => array('dir' => 'hand_on_session', 'label' => 'Hands-On Sessions'),
+    'team'      => array('dir' => 'team_community',  'label' => 'Team & Community'),
+    'video'     => array('dir' => 'video',           'label' => 'Video'),
+);
+
+$galleryExtensions = array('jpg', 'jpeg', 'png', 'webp', 'gif');
+
+$galleryItems = array();
+
+foreach ($galleryFolders as $galleryKey => $galleryFolder) {
+
+    $galleryItems[$galleryKey] = array(
+        'label' => $galleryFolder['label'],
+        'files' => array(),
+    );
+
+    $galleryDir = $galleryBasePath . DIRECTORY_SEPARATOR . $galleryFolder['dir'];
+
+    if (!is_dir($galleryDir)) {
+        continue;
+    }
+
+    $galleryEntries = @scandir($galleryDir);
+
+    if ($galleryEntries === false) {
+        continue;
+    }
+
+    foreach ($galleryEntries as $galleryEntry) {
+
+        if ($galleryEntry === '.' || $galleryEntry === '..') {
+            continue;
+        }
+
+        $galleryExt = strtolower(pathinfo($galleryEntry, PATHINFO_EXTENSION));
+
+        if (!in_array($galleryExt, $galleryExtensions, true)) {
+            continue;
+        }
+
+        $galleryFile = $galleryDir . DIRECTORY_SEPARATOR . $galleryEntry;
+
+        if (!is_file($galleryFile)) {
+            continue;
+        }
+
+        $galleryItems[$galleryKey]['files'][] = array(
+            'name'  => pathinfo($galleryEntry, PATHINFO_FILENAME),
+            'url'   => $galleryBaseUrl . '/' . $galleryFolder['dir'] . '/' . rawurlencode($galleryEntry),
+        );
+
+    }
+
+    if (count($galleryItems[$galleryKey]['files']) > 1) {
+        usort($galleryItems[$galleryKey]['files'], function ($a, $b) {
+            return strnatcasecmp($a['name'], $b['name']);
+        });
+    }
+
+}
+
+$galleryTotal = 0;
+
+foreach ($galleryItems as $galleryGroup) {
+    $galleryTotal += count($galleryGroup['files']);
+}
+
+$gallerySizes  = array('featured-large', 'feature-medium', 'feature-medium', 'feature-small', 'feature-small', 'feature-medium', 'feature-medium');
+$galleryCursor = 0;
+
+?>
+
 <!-- ================= GALLERY ================= -->
 
 <section class="gallery">
@@ -287,65 +368,29 @@ include 'includes/navbar.php';
         <button class="gallery-filter active" data-filter="all" aria-pressed="true">ALL</button>
         <button class="gallery-filter" data-filter="learning" aria-pressed="false">LEARNING & TRAINING</button>
         <button class="gallery-filter" data-filter="hands-on" aria-pressed="false">HANDS-ON SESSIONS</button>
-        <button class="gallery-filter" data-filter="team" aria-pressed="false">TEAM & COMMUNITY</button>
+        <button class="gallery-filter" data-filter="team" aria-pressed="false">TEAM &amp; COMMUNITY</button>
+        <button class="gallery-filter" data-filter="video" aria-pressed="false">VIDEO</button>
     </div>
 
     <div class="gallery-grid" id="galleryGrid">
 
-        <article class="gallery-item featured-large" data-category="learning">
-            <img src="images/aboutphoto1.png" alt="Learners engaged in discussion">
-            <div class="gallery-caption">Learning & Training</div>
-        </article>
+<?php if ($galleryTotal > 0) { ?>
 
-        <article class="gallery-item feature-medium" data-category="learning">
-            <img src="images/aboutphoto2.webp" alt="Focused group discussion during training">
-            <div class="gallery-caption">Focused Discussion</div>
+        <?php foreach ($galleryItems as $galleryKey => $galleryGroup) { ?>
+            <?php foreach ($galleryGroup['files'] as $galleryFile) { ?>
+        <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>">
+            <img src="<?php echo htmlspecialchars($galleryFile['url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($galleryGroup['label'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy">
+            <div class="gallery-caption"><?php echo htmlspecialchars($galleryGroup['label'], ENT_QUOTES, 'UTF-8'); ?></div>
         </article>
+            <?php $galleryCursor++; ?>
+            <?php } ?>
+        <?php } ?>
 
-        <article class="gallery-item feature-medium" data-category="learning">
-            <img src="images/aboutphoto4.webp" alt="Participants completing worksheets during training">
-            <div class="gallery-caption">Practical Learning</div>
-        </article>
+<?php } else { ?>
 
-        <article class="gallery-item feature-small" data-category="learning">
-            <img src="images/aboutphoto9.webp" alt="Instructor leading a learning session">
-            <div class="gallery-caption">Instructor-led Session</div>
-        </article>
+        <p class="gallery-description">New photos and videos will appear here soon.</p>
 
-        <article class="gallery-item feature-small" data-category="hands-on">
-            <img src="images/aboutphoto6.webp" alt="Large screen explanation during a practical session">
-            <div class="gallery-caption">Clear Instruction</div>
-        </article>
-
-        <article class="gallery-item feature-small" data-category="hands-on">
-            <img src="images/aboutphoto11.png" alt="First-aid practical demonstration">
-            <div class="gallery-caption">Practical Application</div>
-        </article>
-
-        <article class="gallery-item feature-medium" data-category="team">
-            <img src="images/aboutphoto7.webp" alt="Team gathering and community activity">
-            <div class="gallery-caption">Team Gathering</div>
-        </article>
-
-        <article class="gallery-item feature-medium" data-category="team">
-            <img src="images/aboutphoto8.webp" alt="Group photo during a company activity">
-            <div class="gallery-caption">Shared Experience</div>
-        </article>
-
-        <article class="gallery-item feature-medium" data-category="team">
-            <img src="images/aboutphoto10.webp" alt="Training completion and seminar group photo">
-            <div class="gallery-caption">Community Connection</div>
-        </article>
-
-        <article class="gallery-item feature-medium" data-category="learning">
-            <img src="images/aboutphoto3.webp" alt="A professional training environment">
-            <div class="gallery-caption">Professional Setting</div>
-        </article>
-
-        <article class="gallery-item feature-medium" data-category="team">
-            <img src="images/aboutphoto12.jpeg" alt="Team gathering and community activity">
-            <div class="gallery-caption">Team Gathering</div>
-        </article>
+<?php } ?>
 
     </div>
 
