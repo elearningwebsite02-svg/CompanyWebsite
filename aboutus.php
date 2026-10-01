@@ -337,7 +337,14 @@ foreach ($galleryFolders as $galleryKey => $galleryFolder) {
 
     if (count($galleryItems[$galleryKey]['files']) > 1) {
         usort($galleryItems[$galleryKey]['files'], function ($a, $b) {
-            return strnatcasecmp($a['name'], $b['name']);
+            $timeA = filemtime(__DIR__ . '/' . rawurldecode($a['url']));
+            $timeB = filemtime(__DIR__ . '/' . rawurldecode($b['url']));
+
+            if ($timeA === $timeB) {
+                return strnatcasecmp($a['name'], $b['name']);
+            }
+
+            return $timeB - $timeA;
         });
     }
 
