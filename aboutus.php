@@ -402,6 +402,8 @@ foreach ($galleryItems as $galleryGroup) {
 $gallerySizes  = array('featured-large', 'feature-medium', 'feature-medium', 'feature-small', 'feature-small', 'feature-medium', 'feature-medium');
 $galleryCursor = 0;
 
+$galleryPreviewLimit = 12;
+
 ?>
 
 <!-- ================= GALLERY ================= -->
@@ -424,13 +426,46 @@ $galleryCursor = 0;
         <button class="gallery-filter" data-filter="video" aria-pressed="false">VIDEO</button>
     </div>
 
+    <style>
+        /* Gallery: collapse overflow items until View All is pressed */
+        .gallery-item.is-overflow { display: none; }
+        .gallery-more.is-hidden { display: none; }
+        .gallery-more {
+            grid-column: 1 / -1;
+            justify-self: center;
+            align-self: center;
+            margin: 8px 0 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 24px;
+            background: transparent;
+            border: 1px solid #A58A5A;
+            border-radius: 999px;
+            color: #A58A5A;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .25s ease, color .25s ease;
+        }
+        .gallery-more:hover { background: #A58A5A; color: #fff; }
+        .gallery-more:focus-visible { outline: 2px solid #A58A5A; outline-offset: 3px; }
+        .gallery-more-icon { transition: transform .25s ease; }
+        .gallery-more.is-open .gallery-more-icon { transform: rotate(-90deg); }
+    </style>
+
     <div class="gallery-grid" id="galleryGrid">
 
 <?php if ($galleryTotal > 0) { ?>
 
         <?php foreach ($galleryItems as $galleryKey => $galleryGroup) { ?>
+            <?php $galleryRowIndex = 0; ?>
             <?php foreach ($galleryGroup['files'] as $galleryFile) { ?>
-        <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>">
+                <?php $galleryIsOverflow = ($galleryRowIndex >= $galleryPreviewLimit); ?>
+        <article class="gallery-item <?php echo htmlspecialchars($gallerySizes[$galleryCursor % count($gallerySizes)], ENT_QUOTES, 'UTF-8'); ?><?php echo $galleryIsOverflow ? ' is-overflow' : ''; ?>" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $galleryIsOverflow ? ' data-overflow="1"' : ''; ?>>
 <?php if ($galleryKey === 'video') { ?>
             <video controls muted playsinline preload="metadata">
                 <source src="<?php echo htmlspecialchars($galleryFile['url'], ENT_QUOTES, 'UTF-8'); ?>" type="video/mp4">
@@ -440,7 +475,13 @@ $galleryCursor = 0;
 <?php } ?>
             <div class="gallery-caption"><?php echo htmlspecialchars($galleryGroup['label'], ENT_QUOTES, 'UTF-8'); ?></div>
         </article>
-            <?php $galleryCursor++; ?>
+            <?php $galleryCursor++; $galleryRowIndex++; ?>
+            <?php } ?>
+            <?php if (count($galleryGroup['files']) > $galleryPreviewLimit) { ?>
+        <button class="gallery-more" type="button" data-category="<?php echo htmlspecialchars($galleryKey, ENT_QUOTES, 'UTF-8'); ?>" aria-expanded="false">
+            <span class="gallery-more-label">View All</span>
+            <span class="gallery-more-icon" aria-hidden="true">&rarr;</span>
+        </button>
             <?php } ?>
         <?php } ?>
 
@@ -463,7 +504,7 @@ include 'includes/footer.php';
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const filters = document.querySelectorAll('.gallery-filter');
-        const items = document.querySelectorAll('.gallery-item');
+        const items = document.querySelectorAll('.gallery-item, .gallery-more');
         const grid = document.getElementById('galleryGrid');
 
         filters.forEach(function (button) {
@@ -489,6 +530,32 @@ include 'includes/footer.php';
 
                     grid.classList.remove('is-changing');
                 }, 180);
+            });
+        });
+
+        /* Per-category View All / Show Less */
+        const moreButtons = document.querySelectorAll('.gallery-more');
+        const expandedState = {};
+
+        moreButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const category = this.getAttribute('data-category');
+                const isOpen = !expandedState[category];
+
+                expandedState[category] = isOpen;
+
+                grid.querySelectorAll('.gallery-item[data-overflow="1"][data-category="' + category + '"]').forEach(function (item) {
+                    item.classList.toggle('is-overflow', !isOpen);
+                });
+
+                this.classList.toggle('is-open', isOpen);
+                this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+                const label = this.querySelector('.gallery-more-label');
+                const icon = this.querySelector('.gallery-more-icon');
+
+                if (label) label.textContent = isOpen ? 'Show Less' : 'View All';
+                if (icon) icon.textContent = isOpen ? '↑' : '→';
             });
         });
 
