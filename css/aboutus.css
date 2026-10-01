@@ -150,12 +150,6 @@
     grid-column:auto;
 }
 
-.team-card:last-child{
-    grid-column:2 / 4;
-    justify-self:center;
-    width:calc((100% - 35px) / 2);
-}
-
 .team-card{
 
     background:#fff;
